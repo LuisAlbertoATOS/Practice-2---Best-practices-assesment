@@ -10,8 +10,11 @@
 </head>
 <body>
     <h1>Countries</h1>
-    <section id="table">
-        <button>
+    <button id="previous-page" disabled>Previous page</button>
+    <button id="next-page">Next page</button>
+    
+    <section id="table" value="0">
+        <button id="btn-toggle">
             Toggle
         </button>
         <section>
@@ -23,7 +26,9 @@
                 <p>Population</p>
                 <p>Flag</p>
             </div>
-            <div id="table-content"></div>
+            <div id="table-content">
+                <div id="wrap-countries"></div>
+            </div>
         </section>
     </section>
     <script type="module" src="./app.js"></script>

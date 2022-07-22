@@ -9,6 +9,10 @@ body {
 button{
     background-color: $btn;
     color: $btn-text;
+
+    &:disabled{
+        background-color: red;
+    }
 }
 
 #table{
