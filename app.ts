@@ -1,8 +1,8 @@
 // const axios = require('axios').default;
 // import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-
 const url:string = "https://restcountries.com/v3.1/all";
 const tableContent:Element = document.querySelector("#table-content")!;
+const wikipediaURL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
 // I want this to be global
 var currPage=0;
@@ -96,3 +96,29 @@ function updatePagesButtons(){
   btnPrevious.disabled = (currPage === 0) ? true:false;
   btnNext.disabled = (currPage === data.length/25-1) ? true:false;
 }
+
+let tableSelect = document.querySelector("#table-content")!;
+tableSelect.addEventListener('click', function(e){
+  let modal = new tingle.modal({
+      closeMethods: ['overlay', 'button', 'escape'],
+      closeLabel: "Close",
+      cssClass: ['custom-class-1', 'custom-class-2'],
+  });
+  
+  let country:string, element=e.target;
+  if(element.tagName.toLowerCase() === 'p'){
+    element = element.parentNode;
+  }
+  country = element.querySelector("p").innerHTML;
+
+  axios.get(wikipediaURL+country)
+  .then(function (response) {
+    // handle success
+    modal.setContent(response.data.extract_html);
+    modal.open();
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  });
+});

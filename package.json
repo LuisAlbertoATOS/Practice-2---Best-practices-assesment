@@ -24,6 +24,7 @@
     "@types/axios": "^0.14.0",
     "@types/node": "^18.0.6",
     "axios": "^0.27.2",
+    "tingle.js": "^0.16.0",
     "webpack": "^5.73.0"
   }
 }

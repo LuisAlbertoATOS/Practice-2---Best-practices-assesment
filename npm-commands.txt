@@ -9,4 +9,5 @@ npm i --save-dev @types/node
 npm i --save-dev @types/axios
 
 npm install --save-dev webpack
-npm i lodash
+
+npm install tingle.js --save
