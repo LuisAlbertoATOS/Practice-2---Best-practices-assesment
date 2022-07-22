@@ -1,5 +1,5 @@
-// const axios = require('axios').default;
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+const axios = require('axios').default;
+// import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import * as tingle from "tingle.js";
 
 const url:string = "https://restcountries.com/v3.1/all";

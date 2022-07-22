@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
-// const axios = require('axios').default;
-var axios_1 = require("axios");
+var axios = require('axios')["default"];
+// import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 var tingle = require("tingle.js");
 var url = "https://restcountries.com/v3.1/all";
 var tableContent = document.querySelector("#table-content");
@@ -16,7 +16,7 @@ var callModal = function (name) {
         closeLabel: "Close",
         cssClass: ['custom-class-1', 'custom-class-2']
     });
-    axios_1["default"].get(wikipediaURL + name)
+    axios.get(wikipediaURL + name)
         .then(function (response) {
         // handle success
         modal.setContent(response.data.extract_html);
@@ -26,7 +26,7 @@ var callModal = function (name) {
         console.log(error);
     });
 };
-axios_1["default"].get(url)
+axios.get(url)
     .then(function (response) {
     // handle success
     console.log(typeof response);
