@@ -10,13 +10,13 @@
 </head>
 <body>
     <h1>Countries</h1>
-    <button id="previous-page" disabled>Previous page</button>
-    <button id="next-page">Next page</button>
-    
+    <section id="buttons">
+        <button id="previous-page" disabled>Previous page</button>
+        <button id="next-page">Next page</button>
+        <button id="btn-toggle">Toggle order</button>
+    </section>
     <section id="table" value="0">
-        <button id="btn-toggle">
-            Toggle
-        </button>
+        
         <section>
             <div id="table-headers">
                 <p>Official Name</p>
@@ -31,7 +31,7 @@
             </div>
         </section>
     </section>
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="./js/app.js"></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="./node_modules/tingle.js/src/tingle.css">

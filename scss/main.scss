@@ -1,4 +1,6 @@
 @import 'variables';
+@import 'buttons';
+@import 'table';
 
 body {
     background-color: $bg;
@@ -6,36 +8,6 @@ body {
     height: 100vh;
 }
 
-button{
-    background-color: $btn;
-    color: $btn-text;
-
-    &:disabled{
-        background-color: red;
-    }
-}
-
-#table{
-    width: 90vw;
-    border: 1px black solid;
-    display: flex;
-    flex-direction: column;
-    
-    &-headers {
-        display: flex;
-        flex-direction: row;
-        p{
-            padding: 1rem;
-        }
-        
-    }
-
-    .table-row{
-        display: flex;
-        flex-direction: row;
-
-        p{
-            padding: 1rem;
-        }
-    }
+#main-content{
+    width: 95vw;
 }

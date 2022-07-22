@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -18,11 +19,13 @@
   "homepage": "https://github.com/LuisAlbertoATOS/Practice-2---Best-practices-assesment#readme",
   "dependencies": {
     "lodash": "^4.17.21",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/node": "^18.0.6",
+    "@types/tingle.js": "^0.13.2",
     "axios": "^0.27.2",
     "tingle.js": "^0.16.0",
     "webpack": "^5.73.0"

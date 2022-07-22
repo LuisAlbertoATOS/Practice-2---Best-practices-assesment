@@ -1,0 +1,30 @@
+@import 'variables';
+
+#buttons{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    
+    button{
+        width: 150px;
+        height: 2rem;
+        color: $btn-text;
+    }
+
+    #btn-toggle{
+        background-color: $purple-gray;
+        color: $text;
+        border: none;
+    }
+    
+    #next-page, #previous-page{
+        background-color: $btn;
+        margin-right: 0.5rem;
+
+        &:disabled{
+            background-color: $disabled;
+        }
+    }
+    }
+

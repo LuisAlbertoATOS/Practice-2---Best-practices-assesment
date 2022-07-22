@@ -1,24 +1,66 @@
 // const axios = require('axios').default;
-// import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import * as tingle from "tingle.js";
+
 const url:string = "https://restcountries.com/v3.1/all";
 const tableContent:Element = document.querySelector("#table-content")!;
 const wikipediaURL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
+const countriesPerPage = 25;
 
 // I want this to be global
 var currPage=0;
-var data:Object[]; 
+var data:fakeObject[]; 
 
-axios.get(url)
-  .then(function (response) {
+interface fakeObject{
+  [index:string]:any;
+}
+
+var callModal = (name:string) => {
+  let modal = new tingle.modal({
+      closeMethods: ['overlay', 'button', 'escape'],
+      closeLabel: "Close",
+      cssClass: ['custom-class-1', 'custom-class-2'],
+  });
+
+  axios.get(wikipediaURL+name)
+  .then(function (response:any) {
     // handle success
-    data = response.data;
-    sortCountries("ASC");
-    displayCountries(currPage);
+    modal.setContent(response.data.extract_html);
+    modal.open();
   })
-  .catch(function (error) {
+  .catch(function (error:any) {
     // handle error
     console.log(error);
   });
+}
+
+axios.get(url)
+  .then(function (response:fakeObject) {
+    // handle success
+    console.log(typeof response);
+    data = response["data"];
+    sortCountries("ASC");
+    cleanData();
+    displayCountries(currPage); 
+  })
+  .catch(function (error:any) {
+    // handle error
+    console.log(error);
+  });
+
+function cleanData(){
+  data.map((country) => {
+    if(country.capital === undefined){
+      country.capital = "No capital";
+    }
+
+    if(!country.languages){
+      country.languages = "No language to display";
+    } else{
+      country.languages = Object.values(country.languages);
+    }
+  });
+}
 
 let order = "ASC";
 let btnToggle = document.querySelector("#btn-toggle")!;
@@ -41,7 +83,6 @@ function sortCountries(order:"ASC"|"DESC"){
       } else{
           return 1;
       }
-      return 0;
     });
   } else{
     // sorting
@@ -61,12 +102,13 @@ function sortCountries(order:"ASC"|"DESC"){
 
 function displayCountries(page:number){
   tableContent.innerHTML="";
-  for(let i=page*25; i<page*25+25;i++) {
+  for(let i=page*countriesPerPage; i<page*countriesPerPage+countriesPerPage;i++) {
     tableContent.insertAdjacentHTML('beforeend', 
-          `<div class="table-row">
+          `<div onclick="callModal(${data[i].name.official})" >
             <p id='name'>`+data[i].name.official+`</p>
             <p id='capitals'>`+data[i].capital+`</p>
             <p id='region'>`+ data[i].region +`</p>
+            <p id='languages'>`+ data[i].languages +`</p>
             <p id='population'>`+ data[i].population +`</p>
             <p id='flag'>`+ data[i].flag +`</p>
           </div>`
@@ -74,16 +116,16 @@ function displayCountries(page:number){
   };
 }
 
-let btnNext = document.querySelector("#next-page")!;
+let btnNext:HTMLButtonElement = document.querySelector("#next-page")!;
 btnNext.addEventListener('click', function(e){
-  if(currPage < data.length/25-1){
+  if(currPage < data.length/countriesPerPage-1){
     currPage += 1;
     displayCountries(currPage);
   }
   updatePagesButtons();
 });
 
-let btnPrevious = document.querySelector("#previous-page")!;
+let btnPrevious:HTMLButtonElement = document.querySelector("#previous-page")!;
 btnPrevious.addEventListener('click', function(e){
   if(currPage >= 0){
     currPage -= 1;
@@ -94,31 +136,10 @@ btnPrevious.addEventListener('click', function(e){
 
 function updatePagesButtons(){
   btnPrevious.disabled = (currPage === 0) ? true:false;
-  btnNext.disabled = (currPage === data.length/25-1) ? true:false;
+  btnNext.disabled = (currPage === data.length/countriesPerPage-1) ? true:false;
 }
 
-let tableSelect = document.querySelector("#table-content")!;
-tableSelect.addEventListener('click', function(e){
-  let modal = new tingle.modal({
-      closeMethods: ['overlay', 'button', 'escape'],
-      closeLabel: "Close",
-      cssClass: ['custom-class-1', 'custom-class-2'],
-  });
-  
-  let country:string, element=e.target;
-  if(element.tagName.toLowerCase() === 'p'){
-    element = element.parentNode;
-  }
-  country = element.querySelector("p").innerHTML;
+function sum(a:number, b:number){
+  console.log(a+b);
+}
 
-  axios.get(wikipediaURL+country)
-  .then(function (response) {
-    // handle success
-    modal.setContent(response.data.extract_html);
-    modal.open();
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  });
-});
