@@ -1,0 +1,12 @@
+MY NPM COMMANDS FOR THIS PROJECT
+
+npm init
+npm i -g axios
+npm i -g typescript
+npm i sass
+
+npm i --save-dev @types/node
+npm i --save-dev @types/axios
+
+npm install --save-dev webpack
+npm i lodash
