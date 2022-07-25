@@ -10,7 +10,19 @@ var countriesPerPage = 25;
 // I want this to be global
 var currPage = 0;
 var data;
-var callModal = function (name) {
+axios.get(url)
+    .then(function (response) {
+    // handle success
+    console.log(typeof response);
+    data = response["data"];
+    sortCountries("ASC");
+    cleanData();
+    displayCountries(currPage);
+})["catch"](function (error) {
+    // handle error
+    console.log(error);
+});
+function callInfoModal(name) {
     var modal = new tingle.modal({
         closeMethods: ['overlay', 'button', 'escape'],
         closeLabel: "Close",
@@ -25,19 +37,7 @@ var callModal = function (name) {
         // handle error
         console.log(error);
     });
-};
-axios.get(url)
-    .then(function (response) {
-    // handle success
-    console.log(typeof response);
-    data = response["data"];
-    sortCountries("ASC");
-    cleanData();
-    displayCountries(currPage);
-})["catch"](function (error) {
-    // handle error
-    console.log(error);
-});
+}
 function cleanData() {
     data.map(function (country) {
         if (country.capital === undefined) {
@@ -89,7 +89,7 @@ function sortCountries(order) {
 function displayCountries(page) {
     tableContent.innerHTML = "";
     for (var i = page * countriesPerPage; i < page * countriesPerPage + countriesPerPage; i++) {
-        tableContent.insertAdjacentHTML('beforeend', "<div onclick=\"callModal(".concat(data[i].name.official, ")\" >\n            <p id='name'>") + data[i].name.official + "</p>\n            <p id='capitals'>" + data[i].capital + "</p>\n            <p id='region'>" + data[i].region + "</p>\n            <p id='languages'>" + data[i].languages + "</p>\n            <p id='population'>" + data[i].population + "</p>\n            <p id='flag'>" + data[i].flag + "</p>\n          </div>");
+        tableContent.insertAdjacentHTML('beforeend', "<div onclick=\"callInfoModal(".concat(data[i].name.official, ")\" >\n            <p id='name'>") + data[i].name.official + "</p>\n            <p id='capitals'>" + data[i].capital + "</p>\n            <p id='region'>" + data[i].region + "</p>\n            <p id='languages'>" + data[i].languages + "</p>\n            <p id='population'>" + data[i].population + "</p>\n            <p id='flag'>" + data[i].flag + "</p>\n          </div>");
     }
     ;
 }
@@ -113,6 +113,19 @@ function updatePagesButtons() {
     btnPrevious.disabled = (currPage === 0) ? true : false;
     btnNext.disabled = (currPage === data.length / countriesPerPage - 1) ? true : false;
 }
-function sum(a, b) {
-    console.log(a + b);
+var btnSearch = document.querySelector("#btn-search");
+btnSearch.addEventListener('click', function (e) {
+    console.log('hello');
+    var filterText = document.querySelector("#input-search");
+    displayFilteredCountries(currPage, filterText.value);
+});
+function displayFilteredCountries(page, input) {
+    tableContent.innerHTML = "";
+    // console.log(input, typeof data, data);
+    // TODO - filter data
+    // TODO - merge the filtered function with displayCountries()
+    for (var i = page * countriesPerPage; i < page * countriesPerPage + countriesPerPage; i++) {
+        tableContent.insertAdjacentHTML('beforeend', "<div onclick=\"callInfoModal(".concat(data[i].name.official, ")\" >\n            <p id='name'>") + data[i].name.official + "</p>\n            <p id='capitals'>" + data[i].capital + "</p>\n            <p id='region'>" + data[i].region + "</p>\n            <p id='languages'>" + data[i].languages + "</p>\n            <p id='population'>" + data[i].population + "</p>\n            <p id='flag'>" + data[i].flag + "</p>\n          </div>");
+    }
+    ;
 }

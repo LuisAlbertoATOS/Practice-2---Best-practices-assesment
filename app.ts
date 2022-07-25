@@ -15,7 +15,21 @@ interface fakeObject{
   [index:string]:any;
 }
 
-var callModal = (name:string) => {
+axios.get(url)
+  .then(function (response:fakeObject) {
+    // handle success
+    console.log(typeof response);
+    data = response["data"];
+    sortCountries("ASC");
+    cleanData();
+    displayCountries(currPage); 
+  })
+  .catch(function (error:any) {
+    // handle error
+    console.log(error);
+  });
+
+function callInfoModal (name:string) {
   let modal = new tingle.modal({
       closeMethods: ['overlay', 'button', 'escape'],
       closeLabel: "Close",
@@ -33,20 +47,6 @@ var callModal = (name:string) => {
     console.log(error);
   });
 }
-
-axios.get(url)
-  .then(function (response:fakeObject) {
-    // handle success
-    console.log(typeof response);
-    data = response["data"];
-    sortCountries("ASC");
-    cleanData();
-    displayCountries(currPage); 
-  })
-  .catch(function (error:any) {
-    // handle error
-    console.log(error);
-  });
 
 function cleanData(){
   data.map((country) => {
@@ -104,7 +104,7 @@ function displayCountries(page:number){
   tableContent.innerHTML="";
   for(let i=page*countriesPerPage; i<page*countriesPerPage+countriesPerPage;i++) {
     tableContent.insertAdjacentHTML('beforeend', 
-          `<div onclick="callModal(${data[i].name.official})" >
+          `<div onclick="callInfoModal(${data[i].name.official})" >
             <p id='name'>`+data[i].name.official+`</p>
             <p id='capitals'>`+data[i].capital+`</p>
             <p id='region'>`+ data[i].region +`</p>
@@ -139,7 +139,33 @@ function updatePagesButtons(){
   btnNext.disabled = (currPage === data.length/countriesPerPage-1) ? true:false;
 }
 
-function sum(a:number, b:number){
-  console.log(a+b);
-}
+let btnSearch:HTMLButtonElement = document.querySelector("#btn-search")!;
+btnSearch.addEventListener('click', function(e){
+  console.log('hello');
+  let filterText:HTMLInputElement = document.querySelector("#input-search")!;
+  
+  
+  displayFilteredCountries(currPage, filterText.value);
+});
+
+function displayFilteredCountries(page:number, input:string){
+  tableContent.innerHTML="";
+  // console.log(input, typeof data, data);
+
+  // TODO - filter data
+  // TODO - merge the filtered function with displayCountries()
+
+  for(let i=page*countriesPerPage; i<page*countriesPerPage+countriesPerPage;i++) {
+    tableContent.insertAdjacentHTML('beforeend', 
+          `<div onclick="callInfoModal(${data[i].name.official})" >
+            <p id='name'>`+data[i].name.official+`</p>
+            <p id='capitals'>`+data[i].capital+`</p>
+            <p id='region'>`+ data[i].region +`</p>
+            <p id='languages'>`+ data[i].languages +`</p>
+            <p id='population'>`+ data[i].population +`</p>
+            <p id='flag'>`+ data[i].flag +`</p>
+          </div>`
+      );
+  };
+} 
 
